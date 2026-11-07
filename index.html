@@ -1,0 +1,612 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111111">
+  <title>Leme One</title>
+  <link rel="stylesheet" href="style.css">
+
+  
+<!-- Favicon oficial da Leme -->
+<link rel="icon" type="image/png" href="./favicon.png">
+
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+
+<div class="brand brand-with-image">
+  <img
+    src="logo-leme.png"
+    alt="Logo da Leme"
+    class="leme-logo"
+  >
+</div>
+
+
+    <nav class="navigation">
+      <button class="nav-btn active" data-page="dashboard">◫ <span>Visão geral</span></button>
+      <button class="nav-btn" data-page="tasks">☑ <span>Minhas tarefas</span></button>
+      <button class="nav-btn" data-page="calendar">▦ <span>Calendário</span></button>
+      <button class="nav-btn" data-page="agenda">◷ <span>Agenda diária</span></button>
+      <button class="nav-btn" data-page="goals">◎ <span>Metas</span></button>
+      <button class="nav-btn" data-page="habits">↻ <span>Hábitos</span></button>
+      <button class="nav-btn" data-page="projects">▤ <span>Projetos</span></button>
+      <button class="nav-btn" data-page="finance">＄ <span>Financeiro</span></button>
+      <button class="nav-btn" data-page="studies">▧ <span>Estudos</span></button>
+      <button class="nav-btn" data-page="focus">◷ <span>Modo foco</span></button>
+      <button class="nav-btn" data-page="stats">▥ <span>Estatísticas</span></button>
+      <button class="nav-btn" data-page="settings">⚙ <span>Configurações</span></button>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <p>Um dia de cada vez.</p>
+      <small id="sidebarDate"></small>
+    </div>
+  </aside>
+
+  <div class="main-area">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="icon-btn mobile-menu" id="menuToggle">☰</button>
+        <div>
+          <h1 id="pageTitle">Visão geral</h1>
+          <p id="pageSubtitle">Organize seu dia e acompanhe seu progresso.</p>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <span id="todayLabel"></span>
+        <button class="icon-btn" id="themeToggle" title="Alternar tema">◐</button>
+        <button class="btn btn-dark" id="quickAddBtn">+ Nova tarefa</button>
+      </div>
+    </header>
+
+    <main class="content">
+
+      <!-- VISÃO GERAL -->
+      <section class="page active" id="dashboard">
+        <div class="welcome">
+          <div>
+            <p class="eyebrow">SEU PAINEL</p>
+            <h2 id="greeting">Bom dia!</h2>
+            <p>Pequenos avanços constroem grandes resultados.</p>
+          </div>
+          <div class="welcome-date" id="welcomeDate"></div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span>Tarefas de hoje</span>
+            <strong id="statToday">0</strong>
+            <small>Planejadas para hoje</small>
+          </div>
+          <div class="stat-card">
+            <span>Concluídas hoje</span>
+            <strong id="statDone">0</strong>
+            <small>Progresso diário</small>
+          </div>
+          <div class="stat-card">
+            <span>Pendentes atrasadas</span>
+            <strong id="statOverdue">0</strong>
+            <small>Precisam de atenção</small>
+          </div>
+          <div class="stat-card">
+            <span>Metas ativas</span>
+            <strong id="statGoals">0</strong>
+            <small>Objetivos em andamento</small>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="panel">
+            <div class="panel-header">
+              <h3>Minhas tarefas de hoje</h3>
+              <button class="text-btn" data-go="tasks">Ver todas →</button>
+            </div>
+            <div id="dashboardTasks" class="item-list"></div>
+          </div>
+
+          <div class="panel">
+            <h3>Progresso do dia</h3>
+            <div class="progress-circle" id="dailyCircle">
+              <div class="progress-inner">
+                <strong id="dailyPercent">0%</strong>
+                <span>concluído</span>
+              </div>
+            </div>
+            <p class="center muted" id="dailyMessage"></p>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="panel">
+            <div class="panel-header">
+              <h3>Minhas metas</h3>
+              <button class="text-btn" data-go="goals">Ver metas →</button>
+            </div>
+            <div id="dashboardGoals"></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <h3>Hábitos de hoje</h3>
+              <button class="text-btn" data-go="habits">Ver hábitos →</button>
+            </div>
+            <div id="dashboardHabits"></div>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="panel">
+            <div class="panel-header">
+              <h3>Minha agenda de hoje</h3>
+              <button class="text-btn" data-go="agenda">Abrir agenda →</button>
+            </div>
+            <div id="dashboardAgenda"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-header">
+              <h3>Resumo financeiro do mês</h3>
+              <button class="text-btn" data-go="finance">Ver financeiro →</button>
+            </div>
+            <div id="dashboardFinance"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAREFAS -->
+      <section class="page" id="tasks">
+        <div class="section-heading">
+          <div><h2>Minhas tarefas</h2><p>Planeje, priorize e conclua.</p></div>
+          <button class="btn btn-dark" id="addTaskBtn">+ Adicionar tarefa</button>
+        </div>
+
+        <div class="toolbar">
+          <input type="search" id="taskSearch" placeholder="Pesquisar tarefas...">
+
+<select id="taskFilter">
+  <option value="all">Todas as tarefas</option>
+  <option value="today">Hoje</option>
+  <option value="pending">Pendentes</option>
+  <option value="done">Concluídas</option>
+  <option value="overdue">Atrasadas</option>
+  <option value="selected">Data selecionada</option>
+</select>
+
+          
+<select id="taskPriorityFilter">
+  <option value="all">Todas as prioridades</option>
+  <option value="low">Baixa prioridade</option>
+  <option value="medium">Média prioridade</option>
+  <option value="high">Alta prioridade</option>
+</select>
+
+          <select id="taskSort">
+            <option value="date">Ordenar por data</option>
+            <option value="priority">Por prioridade</option>
+            <option value="newest">Mais recentes</option>
+          </select>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h3>Lista de tarefas</h3>
+            <span class="counter" id="taskCount"></span>
+          </div>
+          <div id="taskList" class="item-list"></div>
+        </div>
+      </section>
+
+      <!-- CALENDÁRIO -->
+      <section class="page" id="calendar">
+        <div class="section-heading">
+          <div><h2>Calendário</h2><p>Visualize suas tarefas por data.</p></div>
+          <button class="btn btn-dark" id="calendarAddBtn">+ Nova tarefa</button>
+        </div>
+        <div class="panel">
+          <div class="calendar-header">
+            <button class="icon-btn" id="prevMonth">←</button>
+            <h3 id="calendarMonth"></h3>
+            <button class="icon-btn" id="nextMonth">→</button>
+          </div>
+          <div class="calendar-weekdays">
+            <span>Dom</span><span>Seg</span><span>Ter</span>
+            <span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span>
+          </div>
+          <div class="calendar-grid" id="calendarGrid"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <h3 id="selectedDateTitle"></h3>
+            <button class="text-btn" id="addSelectedDate">+ Adicionar</button>
+          </div>
+          <div id="calendarTasks" class="item-list"></div>
+        </div>
+      </section>
+
+      <!-- AGENDA DIÁRIA -->
+      <section class="page" id="agenda">
+        <div class="section-heading">
+          <div>
+            <h2>Agenda diária</h2>
+            <p>Organize cada horário do seu dia.</p>
+          </div>
+          <button class="btn btn-dark" id="addAgendaBtn">+ Compromisso</button>
+        </div>
+
+        <div class="panel">
+          <div class="agenda-controls">
+            <button class="icon-btn" id="agendaPrev">←</button>
+            <input type="date" id="agendaDate">
+            <button class="icon-btn" id="agendaNext">→</button>
+            <button class="btn" id="agendaToday">Hoje</button>
+          </div>
+          <h3 id="agendaHeading"></h3>
+          <p class="muted" id="agendaSummary"></p>
+          <div class="agenda-timeline" id="agendaTimeline"></div>
+        </div>
+      </section>
+
+      <!-- METAS -->
+      <section class="page" id="goals">
+        <div class="section-heading">
+          <div><h2>Minhas metas</h2><p>Transforme objetivos em resultados.</p></div>
+          <button class="btn btn-dark" id="addGoalBtn">+ Nova meta</button>
+        </div>
+        <div class="cards-grid" id="goalList"></div>
+      </section>
+
+      <!-- HÁBITOS -->
+ 
+<!-- HÁBITOS -->
+<section class="page" id="habits">
+  <div class="section-heading">
+    <div>
+      <h2>Meus hábitos</h2>
+      <p>Pequenos passos, grandes transformações.</p>
+    </div>
+
+    <button class="btn btn-dark" id="addHabitBtn">
+      + Novo hábito
+    </button>
+  </div>
+
+  <!-- ESTATÍSTICAS GERAIS -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span>Hábitos cadastrados</span>
+      <strong id="habitTotal">0</strong>
+      <small>Sua rotina de evolução</small>
+    </div>
+
+    <div class="stat-card">
+      <span>Concluídos hoje</span>
+      <strong id="habitDone">0</strong>
+      <small>Hábitos realizados hoje</small>
+    </div>
+
+    <div class="stat-card">
+      <span>Dias ativos (30 dias)</span>
+      <strong id="habitActiveDays">0</strong>
+      <small>Dias com ao menos um hábito feito</small>
+    </div>
+
+    <div class="stat-card">
+      <span>Maior sequência</span>
+      <strong id="habitBestStreak">0</strong>
+      <small>Recorde entre seus hábitos</small>
+    </div>
+  </div>
+
+  <!-- MAPA DE CONSISTÊNCIA -->
+  <div class="panel habit-overview">
+    <div class="panel-header">
+      <div>
+        <h3>Mapa de consistência</h3>
+        <p class="muted habit-overview-subtitle">
+          Sua dedicação ao longo dos últimos 12 meses.
+        </p>
+      </div>
+
+      <span class="habit-overview-badge">
+        Últimos 12 meses
+      </span>
+    </div>
+
+    <div class="habit-heatmap-scroll">
+      <div id="habitHeatmap"></div>
+    </div>
+
+    <div class="habit-heatmap-footer">
+      <span id="habitHeatmapSummary">
+        0 dias ativos
+      </span>
+
+      <div class="habit-heatmap-legend">
+        <span>Menos</span>
+        <i class="heat-level-0"></i>
+        <i class="heat-level-1"></i>
+        <i class="heat-level-2"></i>
+        <i class="heat-level-3"></i>
+        <i class="heat-level-4"></i>
+        <span>Mais</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- LISTA DE HÁBITOS -->
+  <div class="section-heading habit-list-heading">
+    <div>
+      <h3>Seus hábitos</h3>
+      <p>Acompanhe sua evolução individual.</p>
+    </div>
+  </div>
+
+  <div class="cards-grid habit-cards-grid" id="habitList"></div>
+</section>
+
+
+      <!-- PROJETOS -->
+      <section class="page" id="projects">
+        <div class="section-heading">
+          <div><h2>Meus projetos</h2><p>Organize tarefas por projeto.</p></div>
+          <button class="btn btn-dark" id="addProjectBtn">+ Novo projeto</button>
+        </div>
+        <div class="cards-grid" id="projectList"></div>
+      </section>
+
+      <!-- FINANCEIRO -->
+      <section class="page" id="finance">
+        <div class="section-heading">
+          <div>
+            <h2>Controle financeiro</h2>
+            <p>Acompanhe seu dinheiro com clareza.</p>
+          </div>
+          <button class="btn btn-dark" id="addTransactionBtn">+ Lançamento</button>
+        </div>
+
+        <div class="toolbar finance-toolbar">
+          <input type="month" id="financeMonth">
+          <select id="financeFilter">
+            <option value="all">Todas as movimentações</option>
+            <option value="income">Somente entradas</option>
+            <option value="expense">Somente despesas</option>
+          </select>
+          <button class="btn" id="addSavingGoalBtn">+ Meta de economia</button>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span>Entradas do mês</span>
+            <strong id="financeIncome">R$ 0</strong>
+            <small>Receitas registradas</small>
+          </div>
+          <div class="stat-card">
+            <span>Despesas do mês</span>
+            <strong id="financeExpense">R$ 0</strong>
+            <small>Gastos registrados</small>
+          </div>
+          <div class="stat-card">
+            <span>Resultado do mês</span>
+            <strong id="financeBalance">R$ 0</strong>
+            <small>Entradas menos despesas</small>
+          </div>
+          <div class="stat-card">
+            <span>Saldo acumulado</span>
+            <strong id="financeTotal">R$ 0</strong>
+            <small>Todos os lançamentos</small>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="panel">
+            <h3>Entradas x despesas — últimos 6 meses</h3>
+            <div class="finance-bars" id="financeMonthlyChart"></div>
+            <div class="chart-legend">
+              <span><i class="legend-dot income-dot"></i> Entradas</span>
+              <span><i class="legend-dot expense-dot"></i> Despesas</span>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>Despesas por categoria</h3>
+            <div id="financeCategoryChart"></div>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="panel">
+            <h3>Evolução do saldo acumulado</h3>
+            <div id="financeEvolution"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-header">
+              <h3>Metas de economia</h3>
+              <button class="text-btn" id="addSavingGoalInline">+ Criar</button>
+            </div>
+            <div id="savingGoalsList"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h3>Movimentações do mês</h3>
+            <span class="counter" id="transactionCount"></span>
+          </div>
+          <div id="transactionList"></div>
+        </div>
+      </section>
+
+      <!-- ESTUDOS -->
+      <section class="page" id="studies">
+        <div class="section-heading">
+          <div>
+            <h2>Estudos e aprendizado</h2>
+            <p>Organize o que você está aprendendo.</p>
+          </div>
+          <button class="btn btn-dark" id="addStudyBtn">+ Novo assunto</button>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card"><span>Assuntos cadastrados</span><strong id="studyTotal">0</strong></div>
+          <div class="stat-card"><span>Horas estudadas</span><strong id="studyHours">0h</strong></div>
+          <div class="stat-card"><span>Conteúdos concluídos</span><strong id="studyCompleted">0</strong></div>
+          <div class="stat-card"><span>Tempo nesta semana</span><strong id="studyWeekHours">0h</strong></div>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="panel">
+            <h3>Horas estudadas nos últimos 7 dias</h3>
+            <div class="bar-chart" id="studyWeekChart"></div>
+          </div>
+          <div class="panel">
+            <h3>Distribuição do tempo por assunto</h3>
+            <div id="studyDistribution"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h3>Registrar sessão de estudo</h3>
+          </div>
+          <form id="studySessionForm" class="study-session-form">
+            <div class="form-group">
+              <label for="sessionSubject">Assunto</label>
+              <select id="sessionSubject" required></select>
+            </div>
+            <div class="form-group">
+              <label for="sessionDate">Data</label>
+              <input type="date" id="sessionDate" required>
+            </div>
+            <div class="form-group">
+              <label for="sessionMinutes">Minutos estudados</label>
+              <input type="number" id="sessionMinutes" min="1" max="1440" value="30" required>
+            </div>
+            <button class="btn btn-dark">Registrar</button>
+          </form>
+        </div>
+
+        <div class="section-heading">
+          <div><h3>Meus assuntos</h3><p>Cursos, matérias e habilidades.</p></div>
+        </div>
+        <div class="cards-grid" id="studyList"></div>
+
+        <div class="panel" style="margin-top:20px">
+          <h3>Histórico de estudos</h3>
+          <div id="studySessionList"></div>
+        </div>
+      </section>
+
+      <!-- MODO FOCO -->
+      <section class="page" id="focus">
+        <div class="section-heading">
+          <div><h2>Modo foco</h2><p>Menos distrações, mais resultados.</p></div>
+        </div>
+        <div class="focus-layout">
+          <div class="panel focus-panel">
+            <p class="eyebrow" id="focusModeLabel">SESSÃO DE FOCO</p>
+            <div class="timer" id="timerDisplay">25:00</div>
+            <div class="timer-modes">
+              <button class="mode-btn active" data-mode="focus">Foco</button>
+              <button class="mode-btn" data-mode="short">Pausa curta</button>
+              <button class="mode-btn" data-mode="long">Pausa longa</button>
+            </div>
+            <div class="timer-actions">
+              <button class="btn btn-dark" id="timerStart">Iniciar</button>
+              <button class="btn" id="timerReset">Reiniciar</button>
+            </div>
+            <p class="muted center">Sessões completas de foco são registradas automaticamente.</p>
+          </div>
+          <div class="panel">
+            <h3>Seu desempenho</h3>
+            <div class="focus-stat"><span>Sessões concluídas</span><strong id="focusSessions">0</strong></div>
+            <div class="focus-stat"><span>Minutos de foco</span><strong id="focusMinutes">0</strong></div>
+            <div class="focus-stat"><span>Sessões hoje</span><strong id="focusToday">0</strong></div>
+            <div class="tip">
+              <strong>Dica de produtividade</strong>
+              <p>Escolha uma tarefa importante e trabalhe nela sem interrupções.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ESTATÍSTICAS -->
+      <section class="page" id="stats">
+        <div class="section-heading">
+          <div><h2>Estatísticas</h2><p>Entenda sua evolução com dados reais.</p></div>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card"><span>Tarefas concluídas</span><strong id="allDone">0</strong></div>
+          <div class="stat-card"><span>Taxa de conclusão</span><strong id="completionRate">0%</strong></div>
+          <div class="stat-card"><span>Metas concluídas</span><strong id="goalsDone">0</strong></div>
+          <div class="stat-card"><span>Horas de foco</span><strong id="focusHours">0</strong></div>
+        </div>
+        <div class="dashboard-grid">
+          <div class="panel">
+            <h3>Tarefas concluídas nos últimos 7 dias</h3>
+            <div class="bar-chart" id="weeklyChart"></div>
+          </div>
+          <div class="panel">
+            <h3>Distribuição de tarefas</h3>
+            <div class="distribution" id="distributionChart"></div>
+          </div>
+        </div>
+        <div class="panel">
+          <h3>Seu resumo</h3>
+          <div id="productivitySummary" class="summary-text"></div>
+        </div>
+      </section>
+
+      <!-- CONFIGURAÇÕES -->
+      <section class="page" id="settings">
+        <div class="section-heading">
+          <div><h2>Configurações</h2><p>Personalize e proteja suas informações.</p></div>
+        </div>
+        <div class="panel settings-panel">
+          <h3>Preferências</h3>
+          <div class="form-group">
+            <label for="userName">Seu nome</label>
+            <input id="userName" placeholder="Como gostaria de ser chamado?">
+          </div>
+          <button class="btn btn-dark" id="saveName">Salvar nome</button>
+        </div>
+        <div class="panel settings-panel">
+          <h3>Backup dos dados</h3>
+          <p class="muted">Inclui tarefas, finanças, estudos, agenda e todas as outras informações.</p>
+          <div class="button-row">
+            <button class="btn btn-dark" id="exportData">Exportar backup</button>
+            <button class="btn" id="importData">Importar backup</button>
+            <input type="file" id="importFile" accept=".json,application/json" hidden>
+          </div>
+        </div>
+        <div class="panel settings-panel">
+          <h3>Zona de perigo</h3>
+          <p class="muted">Apagar todos os dados do Planner deste navegador.</p>
+          <button class="btn btn-danger" id="clearData">Apagar todos os dados</button>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="modalTitle"></h2>
+      <button class="icon-btn" id="closeModal">✕</button>
+    </div>
+    <form id="modalForm">
+      <div id="modalFields"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn" id="cancelModal">Cancelar</button>
+        <button type="submit" class="btn btn-dark">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="script.js" defer></script>
+</body>
+</html>
