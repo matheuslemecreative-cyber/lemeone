@@ -1,0 +1,24 @@
+LEME ONE — PWA COM A LOGO NOVA
+
+ESTE ZIP MANTEM OS ARQUIVOS DE CONFIGURACAO PWA ANTERIORES.
+AS UNICAS MUDANCAS VISUAIS SAO OS ICONES, FEITOS A PARTIR DO NOVO favicon.png ENVIADO POR VOCE.
+
+1. Descompacte o ZIP.
+2. No GitHub, no repositorio lemeone, clique Add file > Upload files.
+3. Se o PWA ja estiver configurado, envie so:
+   - icon-192.png
+   - icon-512.png
+   - favicon.png (para a aba do navegador; seu index.html referencia este nome)
+   Confirme a substituicao e faca Commit changes.
+4. Se ainda nao instalou o PWA, envie tambem os arquivos existentes:
+   - manifest.json
+   - sw.js
+   - pwa-register.js
+   No index.html, antes de </head>, inclua:
+   <link rel="manifest" href="./manifest.json">
+   E, antes de </body>, apos os scripts:
+   <script src="./pwa-register.js" defer></script>
+5. Abra o site publicado no Chrome Android e instale pelo menu.
+
+NAO ALTERA login, banco Cloudflare, scripts do Planner, CSS nem dados salvos.
+Se ja instalou o app, o Android/Chrome pode demorar para atualizar a imagem em cache; se necessario, remova apenas o atalho/app e instale novamente. Nao limpe os dados do site.
