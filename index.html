@@ -580,9 +580,19 @@
             <input type="file" id="importFile" accept=".json,application/json" hidden>
           </div>
         </div>
+        <div class="panel settings-panel" id="cloudSettingsPanel">
+          <h3>Minha conta e sincronização</h3>
+          <p class="muted">Seus dados são salvos na Cloudflare e sincronizados entre seus aparelhos.</p>
+          <p><strong>Conta:</strong> <span id="cloudAccountName">Não conectado</span></p>
+          <p><strong>Status:</strong> <span id="cloudSyncStatus" role="status">Aguardando login</span></p>
+          <div class="button-row cloud-settings-buttons">
+            <button class="btn btn-dark" id="cloudSyncNow" type="button">Sincronizar agora</button>
+            <button class="btn" id="cloudLogout" type="button">Sair da conta</button>
+          </div>
+        </div>
         <div class="panel settings-panel">
           <h3>Zona de perigo</h3>
-          <p class="muted">Apagar todos os dados do Planner deste navegador.</p>
+          <p class="muted">Apagar todos os dados da sua conta, inclusive na nuvem e nos dispositivos conectados.</p>
           <button class="btn btn-danger" id="clearData">Apagar todos os dados</button>
         </div>
       </section>
@@ -606,7 +616,54 @@
   </div>
 </div>
 
+<!-- A proteção de login fica sobre o site, sem mudar seu layout original. -->
+<div class="cloud-gate" id="cloudGate" role="dialog" aria-modal="true" aria-label="Entrar no Leme One">
+  <div class="cloud-auth-card">
+    <img src="logo-leme.png" alt="Leme" class="cloud-auth-logo">
+    <div class="cloud-auth-pane" id="cloudAuthPane">
+      <h2 id="cloudAuthTitle">Entrar no Leme One</h2>
+      <div class="cloud-auth-tabs">
+        <button type="button" id="cloudLoginTab" class="active">Entrar</button>
+        <button type="button" id="cloudRegisterTab">Criar conta</button>
+      </div>
+      <form id="cloudAuthForm" autocomplete="on">
+        <label for="cloudUsername">Nome de usuário</label>
+        <input id="cloudUsername" type="text" minlength="3" maxlength="32"
+          pattern="[a-zA-Z0-9._-]{3,32}" autocomplete="username" required
+          placeholder="Ex.: leme" spellcheck="false">
+        <label for="cloudPassword">Senha</label>
+        <input id="cloudPassword" type="password" minlength="10" maxlength="128"
+          autocomplete="current-password" required placeholder="Sua senha (mín. 10 caracteres)">
+        <div id="cloudCodeGroup" hidden>
+          <label for="cloudRegistrationCode">Código privado de cadastro</label>
+          <input id="cloudRegistrationCode" type="password" maxlength="200"
+            autocomplete="off" placeholder="Código criado na Cloudflare">
+        </div>
+        <button id="cloudAuthSubmit" type="submit" class="cloud-primary-btn">Entrar na minha conta</button>
+      </form>
+    </div>
+    <div class="cloud-auth-pane" id="cloudMigrationPane" hidden>
+      <h2>Seus dados antigos estão seguros</h2>
+      <p id="cloudMigrationDescription"></p>
+      <button id="cloudMigrateUpload" class="cloud-primary-btn" type="button">Enviar meus dados locais para a nuvem</button>
+      <button id="cloudMigrateCloud" class="cloud-secondary-btn" type="button">Usar os dados da nuvem</button>
+      <p class="cloud-small">A cópia original do navegador não será apagada. As duas versões não são mescladas automaticamente.</p>
+    </div>
+    <div class="cloud-auth-pane" id="cloudConflictPane" hidden>
+      <h2>Alterações em dois dispositivos</h2>
+      <p>Seu computador e celular mudaram informações diferentes. Escolha qual versão manter. Não substituímos dados automaticamente.</p>
+      <button id="cloudConflictUseCloud" class="cloud-primary-btn" type="button">Usar nuvem (baixar cópia local antes)</button>
+      <button id="cloudConflictUseLocal" class="cloud-secondary-btn" type="button">Usar dados deste dispositivo</button>
+      <p class="cloud-small">Se escolher a nuvem, o navegador baixará um backup da versão local. Se escolher o dispositivo, a nuvem será substituída.</p>
+    </div>
+    <p id="cloudGateMessage" class="cloud-gate-message" role="status" aria-live="polite"></p>
+    <p class="cloud-credit">Leme One • by Leme Service</p>
+  </div>
+</div>
+
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="cloud-config.js" defer></script>
 <script src="script.js" defer></script>
+<script src="cloud-sync.js" defer></script>
 </body>
 </html>

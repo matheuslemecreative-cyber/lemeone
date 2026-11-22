@@ -136,7 +136,15 @@ let db = loadData();
 
 function saveData() {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+    // O Leme One original continua intacto: a sincronizacao atua apenas ao entrar.
+    // Dados antigos permanecem disponiveis para migracao ou backup.
+    if (window.LemeCloud && window.LemeCloud.isActive()) {
+      if (!window.LemeCloud.saveChange(db)) {
+        throw new Error("Nao foi possivel salvar a copia local da nuvem.");
+      }
+    } else {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+    }
     return true;
   } catch (error) {
     console.error(error);
@@ -2713,7 +2721,7 @@ $("#importFile").onchange = async event => {
 
 $("#clearData").onclick = () => {
   if (!confirm(
-    "ATENÇÃO: apagar todas as tarefas, finanças, estudos, agenda e demais dados?"
+    "ATENÇÃO: esta ação apaga todas as tarefas, finanças, estudos, agenda e demais dados, INCLUSIVE NA NUVEM e em outros dispositivos após sincronizar. Exporte um backup antes. Continuar?"
   )) return;
 
   db = blankData();
